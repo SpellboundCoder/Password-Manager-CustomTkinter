@@ -17,7 +17,7 @@ class App(ctk.CTk):
         self.data = {
             "Websitetest": {
                 "email": "firstemailtest@gmail.com",
-                "password": "testpassword"
+                "password": "test_password"
             }
         }
         # open data.json file
@@ -41,7 +41,8 @@ class App(ctk.CTk):
         self.password_length = 12
         self.new_password_length = 12
         # load images with light and dark mode image
-        self.add_button = ctk.CTkImage(Image.open("Images/add_button.png"), size=(23, 23))
+        self.add_button = ctk.CTkImage(Image.open("Images/add_button.png"), size=(20, 20))
+        self.delete_button = ctk.CTkImage(Image.open("Images/delete_.png"), size=(20, 20))
         self.large_test_image = ctk.CTkImage(Image.open("Images/logo.png"), size=(300, 200))
         self.image_search = ctk.CTkImage(Image.open("Images/search_11.png"), size=(20, 20))
         self.home_image = ctk.CTkImage(light_image=Image.open("Images/logo.png"),
@@ -51,24 +52,25 @@ class App(ctk.CTk):
         self.choose_email = ctk.CTkImage(light_image=Image.open("Images/mail-red.png"),
                                          dark_image=Image.open("Images/mail-red.png"), size=(18, 18))
         self.reset_password = ctk.CTkImage(light_image=Image.open("Images/password-reset.png"),
-                                           dark_image=Image.open("Images/password-reset.png"), size=(18, 18))
+                                           dark_image=Image.open("Images/password-reset.png"), size=(20, 20))
         # create navigation frame
         self.navigation_frame = ctk.CTkFrame(self, corner_radius=0)
         self.navigation_frame.grid(row=0, column=0, sticky="nsew")
-        self.navigation_frame.grid_rowconfigure(4, weight=1)
+        self.navigation_frame.grid_rowconfigure(5, weight=1)
 
         self.navigation_frame_label = ctk.CTkLabel(self.navigation_frame, text="Password manager",
                                                    image=self.home_image,
                                                    compound="right",
                                                    font=ctk.CTkFont(size=15, weight="bold"))
         self.navigation_frame_label.grid(row=0, column=0, padx=20, pady=20)
-
+        # Frame 1 (home)
         self.home_button = ctk.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10,
                                          text="Home",
                                          fg_color="transparent", text_color=("gray10", "gray90"),
                                          hover_color=("gray70", "gray30"),
                                          image=self.home_image, anchor="w", command=self.home_button_event)
         self.home_button.grid(row=1, column=0, sticky="ew")
+        # Frame 2 (saved passwords)
         self.frame_2_button = ctk.CTkButton(self.navigation_frame, corner_radius=0, height=40,
                                             border_spacing=10, text="Saved Passwords",
                                             fg_color="transparent", text_color=("gray10", "gray90"),
@@ -77,7 +79,7 @@ class App(ctk.CTk):
                                             command=self.frame_2_button_event)
         self.frame_2_button.grid(row=2, column=0, sticky="ew")
 
-        # FRAME 3
+        # Frame 3 (change password)
         self.frame_3_button = ctk.CTkButton(self.navigation_frame, corner_radius=0, height=40,
                                             border_spacing=10, text="Change password",
                                             fg_color="transparent", text_color=("gray10", "gray90"),
@@ -85,6 +87,15 @@ class App(ctk.CTk):
                                             image=self.lock_image, anchor="w",
                                             command=self.frame_3_button_event)
         self.frame_3_button.grid(row=3, column=0, sticky="ew")
+
+        # Frame 4 (delete password)
+        self.frame_4_button = ctk.CTkButton(self.navigation_frame, corner_radius=0, height=40,
+                                            border_spacing=10, text="Delete password",
+                                            fg_color="transparent", text_color=("gray10", "gray90"),
+                                            hover_color=("gray70", "gray30"),
+                                            image=self.lock_image, anchor="w",
+                                            command=self.frame_4_button_event)
+        self.frame_4_button.grid(row=4, column=0, sticky="ew")
 
         self.appearance_mode_menu = ctk.CTkOptionMenu(self.navigation_frame,
                                                       values=["Dark", "Light", "System"],
@@ -196,7 +207,8 @@ class App(ctk.CTk):
         self.change_entry_password_length = ctk.CTkEntry(self.change_password_frame, text_color="orange")
         self.change_entry_password_length.grid(row=3, column=1, columnspan=1, pady=(10, 10), sticky="nsew")
         self.change_entry_password_length.insert(0, self.password_length)
-        self.slider_change_password = ctk.CTkSlider(self.change_password_frame, width=100, from_=8, to=16, number_of_steps=4,
+        self.slider_change_password = ctk.CTkSlider(self.change_password_frame, width=100, from_=8, to=16,
+                                                    number_of_steps=4,
                                                     command=self.update_length_frame3)
         self.slider_change_password.grid(row=3, column=3, pady=(10, 10), sticky="ew")
 
@@ -216,17 +228,51 @@ class App(ctk.CTk):
                                                      command=self.update_password)
         self.change_frame_button_add.grid(row=5, column=1, columnspan=3, padx=(0, 10), pady=(10, 10))
 
-        # create a frame "Saved Passwords"
+        # CREATE A FRAME "Saved Passwords"
         self.second_frame = ctk.CTkFrame(self, corner_radius=0, fg_color="transparent")
-        self.textbox = ctk.CTkTextbox(self.second_frame, width=460, height=450)
+        self.textbox = ctk.CTkTextbox(self.second_frame, width=460, height=450, scrollbar_button_color='green',
+                                      scrollbar_button_hover_color='green')
         self.textbox.grid(row=0, column=0, columnspan=3, padx=(20, 20), pady=(10, 10), sticky="nsew")
-        for key, value in self.data.items():
-            self.textbox.insert("0.0",
-                                f"Website:                     Email:                           Password:   \n"
-                                f" {key} |  {value['email']} |  {value['password']}\n\n")
-        # TODO create "Delete Frame"
 
-        # select default frame
+        # Delete Frame
+        self.delete_frame = ctk.CTkFrame(self, corner_radius=0, fg_color="transparent")
+        self.delete_frame.grid_columnconfigure(0, weight=1)
+
+        self.delete_frame_large_image_label = ctk.CTkLabel(self.delete_frame, text="",
+                                                           image=self.large_test_image)
+        self.delete_frame_large_image_label.grid(row=0, column=0, columnspan=4, pady=10)
+
+        # WEBSITE and Search
+        self.delete_label_website = ctk.CTkLabel(self.delete_frame, text="Website:",
+                                                 font=ctk.CTkFont(size=15, weight="bold"))
+        self.delete_label_website.grid(row=1, column=0, pady=10)
+        self.delete_entry_website = ctk.CTkEntry(self.delete_frame, placeholder_text="Enter a Website Here",
+                                                 text_color="orange")
+        self.delete_entry_website.grid(row=1, column=1, pady=(10, 10), sticky="nsew")
+        self.delete_button_search = ctk.CTkButton(self.delete_frame, text="Search Website",
+                                                  image=self.image_search, compound="right",
+                                                  command=self.search_password_frame4)
+        self.delete_button_search.grid(row=1, column=3, pady=10)
+
+        # SHOW Email/Password for Chosen Website
+        self.delete_label_email = ctk.CTkLabel(self.delete_frame, text="Email/Password:",
+                                               font=ctk.CTkFont(size=15, weight="bold"))
+        self.delete_label_email.grid(row=2, column=0, pady=(10, 10))
+        self.delete_email_entry = ctk.CTkEntry(self.delete_frame,
+                                               text_color="orange",
+                                               placeholder_text="Email")
+        self.delete_email_entry.grid(row=2, column=1, pady=(10, 10), sticky="nsew")
+        self.delete_password_entry = ctk.CTkEntry(self.delete_frame,
+                                                  text_color="orange",
+                                                  placeholder_text="Password")
+        self.delete_password_entry.grid(row=2, column=3, pady=(10, 10), padx=5, sticky="nsew")
+
+        # DELETE button
+        self.delete_button = ctk.CTkButton(self.delete_frame, width=290, text="Delete Password",
+                                           image=self.delete_button, compound="right", command=self.delete)
+        self.delete_button.grid(row=5, column=1, columnspan=3, padx=(0, 10), pady=(10, 10))
+
+        # SELECT DEFAULT  FRAME
         self.select_frame_by_name("home")
 
     def select_frame_by_name(self, name):
@@ -234,6 +280,7 @@ class App(ctk.CTk):
         self.home_button.configure(fg_color=("gray75", "gray25") if name == "home" else "transparent")
         self.frame_2_button.configure(fg_color=("gray75", "gray25") if name == "frame_2" else "transparent")
         self.frame_3_button.configure(fg_color=("gray75", "gray25") if name == "frame_3" else "transparent")
+        self.frame_4_button.configure(fg_color=("gray75", "gray25") if name == "frame_4" else "transparent")
 
         # show selected frame
         if name == "home":
@@ -248,15 +295,29 @@ class App(ctk.CTk):
             self.change_password_frame.grid(row=0, column=1, sticky="nsew")
         else:
             self.change_password_frame.grid_forget()
+        if name == "frame_4":
+            self.delete_frame.grid(row=0, column=1, sticky="nsew")
+        else:
+            self.delete_frame.grid_forget()
 
     def home_button_event(self):
         self.select_frame_by_name("home")
 
     def frame_2_button_event(self):
         self.select_frame_by_name("frame_2")
+        self.textbox.delete("0.0", "end")
+        with open("data/data.json") as file:
+            data = json.load(file)
+        for key, value in data.items():
+            self.textbox.insert("0.0",
+                                f"Website:                     Email:                           Password:   \n"
+                                f" {key}   |    {value['email']}   |    {value['password']}\n\n")
 
     def frame_3_button_event(self):
         self.select_frame_by_name("frame_3")
+
+    def frame_4_button_event(self):
+        self.select_frame_by_name("frame_4")
 
     def change_appearance_mode_event(self, new_appearance_mode):
         ctk.set_appearance_mode(new_appearance_mode)
@@ -297,6 +358,16 @@ class App(ctk.CTk):
             self.chosen_website_email_entry.insert(0, self.data[website]['email'])
             self.chosen_website_password_entry.delete(0, ctk.END)
             self.chosen_website_password_entry.insert(0, self.data[website]['password'])
+        else:
+            messagebox.showinfo(title=website, message=f" '{website}' not in the list of your saved websites.")
+
+    def search_password_frame4(self):
+        website = self.delete_entry_website.get()
+        if website in self.data:
+            self.delete_email_entry.delete(0, ctk.END)
+            self.delete_email_entry.insert(0, self.data[website]['email'])
+            self.delete_password_entry.delete(0, ctk.END)
+            self.delete_password_entry.insert(0, self.data[website]['password'])
         else:
             messagebox.showinfo(title=website, message=f" '{website}' not in the list of your saved websites.")
 
@@ -350,3 +421,19 @@ class App(ctk.CTk):
             self.chosen_website_password_entry.configure(placeholder_text='Password')
             self.chosen_website_email_entry.configure(placeholder_text='Email')
 
+    def delete(self):
+        website_to_delete = self.delete_entry_website.get()
+        if website_to_delete in self.data:
+            del self.data[website_to_delete]
+            with open("data/data.json", "w") as data_file:
+                json.dump(self.data, data_file, indent=4)
+            self.delete_entry_website.delete(0, ctk.END)
+            self.delete_email_entry.delete(0, ctk.END)
+            self.delete_password_entry.delete(0, ctk.END)
+            messagebox.showinfo(title="Website deleted", message=f"Website: '{website_to_delete}'\n")
+            self.delete_entry_website.configure(placeholder_text='Enter a Website')
+            self.delete_email_entry.configure(placeholder_text='Password')
+            self.delete_password_entry.configure(placeholder_text='Email')
+
+        else:
+            messagebox.showwarning('Chosen Website is not found, please check the name again')
