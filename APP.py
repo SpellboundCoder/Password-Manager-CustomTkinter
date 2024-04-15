@@ -13,7 +13,7 @@ class App(ctk.CTk):
         super().__init__()
 
         self.title("Yevhen's Password Manager.py")
-        self.geometry("700x470")
+        self.geometry("700x470+500+250")
         self.data = {
             "Websitetest": {
                 "email": "firstemailtest@gmail.com",
@@ -41,12 +41,14 @@ class App(ctk.CTk):
         self.password_length = 12
         self.new_password_length = 12
         # load images with light and dark mode image
-        self.add_button = ctk.CTkImage(Image.open("Images/add_button.png"), size=(20, 20))
-        self.delete_button = ctk.CTkImage(Image.open("Images/delete_.png"), size=(20, 20))
-        self.large_test_image = ctk.CTkImage(Image.open("Images/logo.png"), size=(300, 200))
-        self.image_search = ctk.CTkImage(Image.open("Images/search_11.png"), size=(20, 20))
+        self.add_icon = ctk.CTkImage(Image.open("Images/add_button.png"), size=(20, 20))
+        self.saved_icon = ctk.CTkImage(Image.open("Images/saved.png"), size=(20, 20))
+        self.delete_icon = ctk.CTkImage(Image.open("Images/delete_.png"), size=(20, 20))
+        self.change_icon = ctk.CTkImage(Image.open("Images/change.png"), size=(20, 20))
+        self.search_icon = ctk.CTkImage(Image.open("Images/search_11.png"), size=(20, 20))
+        self.large_image = ctk.CTkImage(Image.open("Images/logo.png"), size=(300, 200))
         self.home_image = ctk.CTkImage(light_image=Image.open("Images/logo.png"),
-                                       dark_image=Image.open("Images/logo.png"), size=(20, 20))
+                                       dark_image=Image.open("Images/logo.png"), size=(25, 25))
         self.lock_image = ctk.CTkImage(light_image=Image.open("Images/logo.png"),
                                        dark_image=Image.open("Images/logo.png"), size=(20, 20))
         self.choose_email = ctk.CTkImage(light_image=Image.open("Images/mail-red.png"),
@@ -58,42 +60,42 @@ class App(ctk.CTk):
         self.navigation_frame.grid(row=0, column=0, sticky="nsew")
         self.navigation_frame.grid_rowconfigure(5, weight=1)
 
-        self.navigation_frame_label = ctk.CTkLabel(self.navigation_frame, text="Password manager",
+        self.navigation_frame_label = ctk.CTkLabel(self.navigation_frame, text="Password Manager",
                                                    image=self.home_image,
                                                    compound="right",
                                                    font=ctk.CTkFont(size=15, weight="bold"))
         self.navigation_frame_label.grid(row=0, column=0, padx=20, pady=20)
         # Frame 1 (home)
         self.home_button = ctk.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10,
-                                         text="Home",
+                                         text="Create Password",
                                          fg_color="transparent", text_color=("gray10", "gray90"),
                                          hover_color=("gray70", "gray30"),
-                                         image=self.home_image, anchor="w", command=self.home_button_event)
+                                         image=self.add_icon, anchor="w", command=self.home_button_event)
         self.home_button.grid(row=1, column=0, sticky="ew")
         # Frame 2 (saved passwords)
         self.frame_2_button = ctk.CTkButton(self.navigation_frame, corner_radius=0, height=40,
                                             border_spacing=10, text="Saved Passwords",
                                             fg_color="transparent", text_color=("gray10", "gray90"),
                                             hover_color=("gray70", "gray30"),
-                                            image=self.lock_image, anchor="w",
+                                            image=self.saved_icon, anchor="w",
                                             command=self.frame_2_button_event)
         self.frame_2_button.grid(row=2, column=0, sticky="ew")
 
         # Frame 3 (change password)
         self.frame_3_button = ctk.CTkButton(self.navigation_frame, corner_radius=0, height=40,
-                                            border_spacing=10, text="Change password",
+                                            border_spacing=10, text="Change Password",
                                             fg_color="transparent", text_color=("gray10", "gray90"),
                                             hover_color=("gray70", "gray30"),
-                                            image=self.lock_image, anchor="w",
+                                            image=self.change_icon, anchor="w",
                                             command=self.frame_3_button_event)
         self.frame_3_button.grid(row=3, column=0, sticky="ew")
 
         # Frame 4 (delete password)
         self.frame_4_button = ctk.CTkButton(self.navigation_frame, corner_radius=0, height=40,
-                                            border_spacing=10, text="Delete password",
+                                            border_spacing=10, text="Delete Password",
                                             fg_color="transparent", text_color=("gray10", "gray90"),
                                             hover_color=("gray70", "gray30"),
-                                            image=self.lock_image, anchor="w",
+                                            image=self.delete_icon, anchor="w",
                                             command=self.frame_4_button_event)
         self.frame_4_button.grid(row=4, column=0, sticky="ew")
 
@@ -107,7 +109,7 @@ class App(ctk.CTk):
         self.home_frame.grid_columnconfigure(0, weight=1)
 
         self.home_frame_large_image_label = ctk.CTkLabel(self.home_frame, text="",
-                                                         image=self.large_test_image)
+                                                         image=self.large_image)
         self.home_frame_large_image_label.grid(row=0, column=0, columnspan=4, pady=10)
 
         # WEBSITE and Search
@@ -118,7 +120,7 @@ class App(ctk.CTk):
                                                text_color="orange")
         self.home_entry_website.grid(row=1, column=1, pady=(10, 10), sticky="nsew")
         self.home_button_search = ctk.CTkButton(self.home_frame, text="Search Website",
-                                                image=self.image_search, compound="right",
+                                                image=self.search_icon, compound="right",
                                                 command=self.search_password)
         self.home_button_search.grid(row=1, column=3, pady=10)
 
@@ -164,7 +166,7 @@ class App(ctk.CTk):
 
         # create "ADD" button
         self.home_frame_button_add = ctk.CTkButton(self.home_frame, width=290, text="Add Password",
-                                                   image=self.add_button, compound="right", command=self.save)
+                                                   image=self.add_icon, compound="right", command=self.save)
         self.home_frame_button_add.grid(row=5, column=1, columnspan=3, padx=(0, 10), pady=(10, 10))
 
         # CREATE CHANGE_PASSWORD FRAME
@@ -172,7 +174,7 @@ class App(ctk.CTk):
         self.change_password_frame.grid_columnconfigure(0, weight=1)
 
         self.change_frame_large_image_label = ctk.CTkLabel(self.change_password_frame, text="",
-                                                           image=self.large_test_image)
+                                                           image=self.large_image)
         self.change_frame_large_image_label.grid(row=0, column=0, columnspan=4, pady=10)
         # Change password items
         self.change_password_label = ctk.CTkLabel(self.change_password_frame, text="Website:",
@@ -182,7 +184,7 @@ class App(ctk.CTk):
                                                   text_color="orange")
         self.chg_psw_entry_website.grid(row=1, column=1, pady=(10, 10), sticky="nsew")
         self.change_button_search = ctk.CTkButton(self.change_password_frame, text="Search Website",
-                                                  image=self.image_search, compound="right",
+                                                  image=self.search_icon, compound="right",
                                                   command=self.search_password_frame3)
         self.change_button_search.grid(row=1, column=3, pady=10)
 
@@ -224,7 +226,7 @@ class App(ctk.CTk):
 
         #  "CHANGE_PASSWORD" button
         self.change_frame_button_add = ctk.CTkButton(self.change_password_frame, width=290, text="Change Password",
-                                                     image=self.reset_password, compound="right",
+                                                     image=self.change_icon, compound="right",
                                                      command=self.update_password)
         self.change_frame_button_add.grid(row=5, column=1, columnspan=3, padx=(0, 10), pady=(10, 10))
 
@@ -239,7 +241,7 @@ class App(ctk.CTk):
         self.delete_frame.grid_columnconfigure(0, weight=1)
 
         self.delete_frame_large_image_label = ctk.CTkLabel(self.delete_frame, text="",
-                                                           image=self.large_test_image)
+                                                           image=self.large_image)
         self.delete_frame_large_image_label.grid(row=0, column=0, columnspan=4, pady=10)
 
         # WEBSITE and Search
@@ -250,7 +252,7 @@ class App(ctk.CTk):
                                                  text_color="orange")
         self.delete_entry_website.grid(row=1, column=1, pady=(10, 10), sticky="nsew")
         self.delete_button_search = ctk.CTkButton(self.delete_frame, text="Search Website",
-                                                  image=self.image_search, compound="right",
+                                                  image=self.search_icon, compound="right",
                                                   command=self.search_password_frame4)
         self.delete_button_search.grid(row=1, column=3, pady=10)
 
@@ -269,7 +271,7 @@ class App(ctk.CTk):
 
         # DELETE button
         self.delete_button = ctk.CTkButton(self.delete_frame, width=290, text="Delete Password",
-                                           image=self.delete_button, compound="right", command=self.delete)
+                                           image=self.delete_icon, compound="right", command=self.delete)
         self.delete_button.grid(row=5, column=1, columnspan=3, padx=(0, 10), pady=(10, 10))
 
         # SELECT DEFAULT  FRAME
