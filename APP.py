@@ -233,7 +233,7 @@ class App(ctk.CTk):
         # CREATE A FRAME "Saved Passwords"
         self.second_frame = ctk.CTkFrame(self, corner_radius=0, fg_color="transparent")
         self.textbox = ctk.CTkTextbox(self.second_frame, width=460, height=450, scrollbar_button_color='green',
-                                      scrollbar_button_hover_color='green')
+                                      scrollbar_button_hover_color='green', text_color=("black", "orange",))
         self.textbox.grid(row=0, column=0, columnspan=3, padx=(20, 20), pady=(10, 10), sticky="nsew")
 
         # Delete Frame
