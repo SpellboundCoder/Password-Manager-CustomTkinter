@@ -47,6 +47,7 @@ class App(ctk.CTk):
         self.change_icon = ctk.CTkImage(Image.open("Images/change.png"), size=(20, 20))
         self.search_icon = ctk.CTkImage(Image.open("Images/search_11.png"), size=(20, 20))
         self.large_image = ctk.CTkImage(Image.open("Images/logo.png"), size=(300, 200))
+        self.delete_frame_image = ctk.CTkImage(Image.open("Images/logo.png"), size=(300, 250))
         self.home_image = ctk.CTkImage(light_image=Image.open("Images/logo.png"),
                                        dark_image=Image.open("Images/logo.png"), size=(25, 25))
         self.lock_image = ctk.CTkImage(light_image=Image.open("Images/logo.png"),
@@ -233,7 +234,7 @@ class App(ctk.CTk):
         # CREATE A FRAME "Saved Passwords"
         self.second_frame = ctk.CTkFrame(self, corner_radius=0, fg_color="transparent")
         self.textbox = ctk.CTkTextbox(self.second_frame, width=460, height=450, scrollbar_button_color='green',
-                                      scrollbar_button_hover_color='green', text_color=("black", "orange",))
+                                      scrollbar_button_hover_color='green', text_color=("black", "orange"))
         self.textbox.grid(row=0, column=0, columnspan=3, padx=(20, 20), pady=(10, 10), sticky="nsew")
 
         # Delete Frame
@@ -241,8 +242,8 @@ class App(ctk.CTk):
         self.delete_frame.grid_columnconfigure(0, weight=1)
 
         self.delete_frame_large_image_label = ctk.CTkLabel(self.delete_frame, text="",
-                                                           image=self.large_image)
-        self.delete_frame_large_image_label.grid(row=0, column=0, columnspan=4, pady=10)
+                                                           image=self.delete_frame_image)
+        self.delete_frame_large_image_label.grid(row=0, column=0, columnspan=4, pady=25)
 
         # WEBSITE and Search
         self.delete_label_website = ctk.CTkLabel(self.delete_frame, text="Website:",
@@ -321,7 +322,8 @@ class App(ctk.CTk):
     def frame_4_button_event(self):
         self.select_frame_by_name("frame_4")
 
-    def change_appearance_mode_event(self, new_appearance_mode):
+    @staticmethod
+    def change_appearance_mode_event(new_appearance_mode):
         ctk.set_appearance_mode(new_appearance_mode)
 
     def generate_password(self):
