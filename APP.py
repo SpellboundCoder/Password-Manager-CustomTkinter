@@ -6,6 +6,10 @@ import string
 import random
 from new_window import NewWindow
 from tkinter import messagebox
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class App(ctk.CTk):
@@ -41,21 +45,21 @@ class App(ctk.CTk):
         self.password_length = 12
         self.new_password_length = 12
         # load images with light and dark mode image
-        self.add_icon = ctk.CTkImage(Image.open("Images/add_button.png"), size=(20, 20))
-        self.saved_icon = ctk.CTkImage(Image.open("Images/saved.png"), size=(20, 20))
-        self.delete_icon = ctk.CTkImage(Image.open("Images/delete_.png"), size=(20, 20))
-        self.change_icon = ctk.CTkImage(Image.open("Images/change.png"), size=(20, 20))
-        self.search_icon = ctk.CTkImage(Image.open("Images/search_11.png"), size=(20, 20))
-        self.large_image = ctk.CTkImage(Image.open("Images/logo.png"), size=(300, 200))
-        self.delete_frame_image = ctk.CTkImage(Image.open("Images/logo.png"), size=(300, 250))
-        self.home_image = ctk.CTkImage(light_image=Image.open("Images/logo.png"),
-                                       dark_image=Image.open("Images/logo.png"), size=(25, 25))
-        self.lock_image = ctk.CTkImage(light_image=Image.open("Images/logo.png"),
-                                       dark_image=Image.open("Images/logo.png"), size=(20, 20))
-        self.choose_email = ctk.CTkImage(light_image=Image.open("Images/mail-red.png"),
-                                         dark_image=Image.open("Images/mail-red.png"), size=(18, 18))
-        self.reset_password = ctk.CTkImage(light_image=Image.open("Images/password-reset.png"),
-                                           dark_image=Image.open("Images/password-reset.png"), size=(20, 20))
+        self.add_icon = ctk.CTkImage(Image.open("assets/add_button.png"), size=(20, 20))
+        self.saved_icon = ctk.CTkImage(Image.open("assets/saved.png"), size=(20, 20))
+        self.delete_icon = ctk.CTkImage(Image.open("assets/delete_.png"), size=(20, 20))
+        self.change_icon = ctk.CTkImage(Image.open("assets/change.png"), size=(20, 20))
+        self.search_icon = ctk.CTkImage(Image.open("assets/search_11.png"), size=(20, 20))
+        self.large_image = ctk.CTkImage(Image.open("assets/logo.png"), size=(300, 200))
+        self.delete_frame_image = ctk.CTkImage(Image.open("assets/logo.png"), size=(300, 250))
+        self.home_image = ctk.CTkImage(light_image=Image.open("assets/logo.png"),
+                                       dark_image=Image.open("assets/logo.png"), size=(25, 25))
+        self.lock_image = ctk.CTkImage(light_image=Image.open("assets/logo.png"),
+                                       dark_image=Image.open("assets/logo.png"), size=(20, 20))
+        self.choose_email = ctk.CTkImage(light_image=Image.open("assets/mail-red.png"),
+                                         dark_image=Image.open("assets/mail-red.png"), size=(18, 18))
+        self.reset_password = ctk.CTkImage(light_image=Image.open("assets/password-reset.png"),
+                                           dark_image=Image.open("assets/password-reset.png"), size=(20, 20))
         # create navigation frame
         self.navigation_frame = ctk.CTkFrame(self, corner_radius=0)
         self.navigation_frame.grid(row=0, column=0, sticky="nsew")
@@ -134,10 +138,10 @@ class App(ctk.CTk):
                                              placeholder_text="Enter Email/Username Here")
         self.home_entry_email.grid(row=2, column=1, pady=(10, 10), sticky="nsew")
         self.home_option_mails = ctk.CTkOptionMenu(self.home_frame, dynamic_resizing=False,
-                                                   values=["yevgenphk@gmail.com",
-                                                           "krivtsov357@gmail.com",
-                                                           "mljonnypro@gmail.com",
-                                                           "inna.aleksandrova.93@gmail.com"],
+                                                   values=[os.getenv('FIRST_EMAIL'),
+                                                           os.getenv('SECOND_EMAIL'),
+                                                           os.getenv('THIRD_EMAIL'),
+                                                           os.getenv('FOURTH_EMAIL')],
                                                    command=self.choice_of_email)
         self.home_option_mails.grid(row=2, column=3, pady=10)
         self.home_option_mails.set("Choose Email")

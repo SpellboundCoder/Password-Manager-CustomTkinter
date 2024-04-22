@@ -2,4 +2,5 @@ customtkinter~=5.2.1
 pyclip~=0.7.0
 pillow~=10.2.0
 future~=1.0.0
-cryptography~=42.0.3
+cryptography~=42.0.5
+python-dotenv~=1.0.1

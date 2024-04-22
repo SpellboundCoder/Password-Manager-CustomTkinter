@@ -1,7 +1,7 @@
 data/key.txt
 data/password.txt
 data/data.json
-
+.env
 test.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
